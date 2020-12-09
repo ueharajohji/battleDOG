@@ -9,8 +9,8 @@ public class EnemyManager : MonoBehaviour
     public Transform target;
     NavMeshAgent agent;
     Animator animator;
-    //public Collider weaponCollider;
-    //public EnemyUIManager enemyUIManager;
+    public Collider weaponCollider;
+    public EnemyUIManager enemyUIManager;
     public int maxHp = 100;
     public int maxSp = 100;
     public int hp;
@@ -18,11 +18,11 @@ public class EnemyManager : MonoBehaviour
     {
         hp = maxHp;
         Debug.Log("calling init with maxHp" + maxHp);
-        //enemyUIManager.Init(this);
+        enemyUIManager.Init(this);
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         agent.destination = target.position;
-        //DisableWeaponCollider();
+        DisableWeaponCollider();
     }
 
     // Update is called once per frame
@@ -40,7 +40,7 @@ public class EnemyManager : MonoBehaviour
             hp = 0;
             animator.SetTrigger("Die");
         }
-        //enemyUIManager.UpdateHp(hp);
+        enemyUIManager.UpdateHp(hp);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -53,13 +53,13 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    //public void EnableWeaponCollider()
-    //{
-    //    weaponCollider.enabled = true;
-    //}
+    public void EnableWeaponCollider()
+    {
+        weaponCollider.enabled = true;
+    }
 
-    //public void DisableWeaponCollider()
-    //{
-    //    weaponCollider.enabled = false;
-    //}
+    public void DisableWeaponCollider()
+    {
+        weaponCollider.enabled = false;
+    }
 }

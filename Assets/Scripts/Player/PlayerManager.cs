@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
     Rigidbody rb;
     public float x, y, ms = 3;
     Animator animator;
-    //public Collider weaponCollider;
+    public Collider weaponCollider;
     public PlayerUIManager playerUIManager;
     public int maxHp = 100;
     public int hp;
@@ -16,10 +16,11 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         hp = maxHp;
-        //playerUIManager.Init(this);
+        ms = 3;
+        playerUIManager.Init(this);
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-        //DisableWeaponCollider();
+        DisableWeaponCollider();
     }
 
     void Update()
@@ -34,6 +35,7 @@ public class PlayerManager : MonoBehaviour
 
     void GetDamage(int damage)
     {
+        Debug.Log("got damage " + damage);
         hp -= damage;
         if (hp <= 0)
         {
@@ -62,13 +64,13 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    //public void EnableWeaponCollider()
-    //{
-    //    weaponCollider.enabled = true;
-    //}
+    public void EnableWeaponCollider()
+    {
+        weaponCollider.enabled = true;
+    }
 
-    //public void DisableWeaponCollider()
-    //{
-    //    weaponCollider.enabled = false;
-    //}
+    public void DisableWeaponCollider()
+    {
+        weaponCollider.enabled = false;
+    }
 }
