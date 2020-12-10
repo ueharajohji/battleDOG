@@ -18,6 +18,7 @@ public class EnemyManager : MonoBehaviour
     {
         hp = maxHp;
         Debug.Log("calling init with maxHp" + maxHp);
+        weaponCollider.GetComponent<Damager>().damage = 50;
         enemyUIManager.Init(this);
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
@@ -39,6 +40,7 @@ public class EnemyManager : MonoBehaviour
         {
             hp = 0;
             animator.SetTrigger("Die");
+            //Destroy(gameObject, 2f);
         }
         enemyUIManager.UpdateHp(hp);
     }
