@@ -14,10 +14,13 @@ public class EnemyManager : MonoBehaviour
     public int maxHp = 100;
     public int maxSp = 100;
     public int hp;
+    public GameObject gameClearText;
+
     void Start()
     {
         hp = maxHp;
         Debug.Log("calling init with maxHp" + maxHp);
+        weaponCollider.GetComponent<Damager>().damage = 50;
         enemyUIManager.Init(this);
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
@@ -32,6 +35,11 @@ public class EnemyManager : MonoBehaviour
         animator.SetFloat("Distance", agent.remainingDistance);
     }
 
+    public void LookAtTarget()
+    {
+        transform.LookAt(target);
+    }
+
     void GetDamage(int damage)
     {
         hp -= damage;
@@ -39,12 +47,15 @@ public class EnemyManager : MonoBehaviour
         {
             hp = 0;
             animator.SetTrigger("Die");
+            Destroy(gameObject, 2f);
+            gameClearText.SetActive(true);
         }
         enemyUIManager.UpdateHp(hp);
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (hp <= 0) return;
         Damager damager = other.GetComponent<Damager>();
         if (damager !=null)
         {

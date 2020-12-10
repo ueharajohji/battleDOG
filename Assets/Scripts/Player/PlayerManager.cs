@@ -11,12 +11,15 @@ public class PlayerManager : MonoBehaviour
     public PlayerUIManager playerUIManager;
     public int maxHp = 100;
     public int hp;
+    bool dead;
+    public GameObject gameOverText;
+    public Transform target;
  
     // Start is called before the first frame update
     void Start()
     {
         hp = maxHp;
-        ms = 3;
+        ms = 10;        
         playerUIManager.Init(this);
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
@@ -25,28 +28,40 @@ public class PlayerManager : MonoBehaviour
 
     void Update()
     {
+        if (dead) return;
         x = Input.GetAxisRaw("Horizontal");
         y = Input.GetAxisRaw("Vertical");
         if(Input.GetKeyDown(KeyCode.Space))
         {
+            LookAtTarget();
             animator.SetTrigger("Attack");
         }
     }
 
+    void LookAtTarget()
+    {
+        float distance = Vector3.Distance(transform.position, target.position);
+        if (distance <= 3f) transform.LookAt(target);
+    }
+
     void GetDamage(int damage)
     {
-        Debug.Log("got damage " + damage);
         hp -= damage;
         if (hp <= 0)
         {
             hp = 0;
+            dead = true;
             animator.SetTrigger("Die");
+            rb.velocity = Vector3.zero;
+            gameOverText.SetActive(true);
         }
         playerUIManager.UpdateHp(hp);
     }
 
     private void FixedUpdate()
     {
+        if (dead) return;
+        Debug.Log("fixed updating");
         Vector3 velocity = new Vector3(x, 0, y) * ms;
         Vector3 direction = transform.position + velocity;
         transform.LookAt(direction);
@@ -56,6 +71,7 @@ public class PlayerManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (dead) return;
         Damager damager = other.GetComponent<Damager>();
         if (damager != null)
         {
