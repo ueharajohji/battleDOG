@@ -1423,7 +1423,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   x: 0
   y: 50
-  ms: 5
+  ms: 15
   weaponCollider: {fileID: 8904245758276725014}
   playerUIManager: {fileID: 740084990}
   maxHp: 100
