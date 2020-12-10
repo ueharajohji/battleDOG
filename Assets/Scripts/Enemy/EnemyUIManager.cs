@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class EnemyUIManager : MonoBehaviour
 {
@@ -14,6 +15,6 @@ public class EnemyUIManager : MonoBehaviour
 
     public void UpdateHp(int hp)
     {
-        slider.value = hp;
+        slider.DOValue(hp, 1f, true);
     }
 }

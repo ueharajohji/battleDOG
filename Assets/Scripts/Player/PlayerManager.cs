@@ -12,12 +12,14 @@ public class PlayerManager : MonoBehaviour
     public int maxHp = 100;
     public int hp;
     bool dead;
+    public GameObject gameOverText;
+    public Transform target;
  
     // Start is called before the first frame update
     void Start()
     {
         hp = maxHp;
-        ms = 3;        
+        ms = 10;        
         playerUIManager.Init(this);
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
@@ -31,8 +33,15 @@ public class PlayerManager : MonoBehaviour
         y = Input.GetAxisRaw("Vertical");
         if(Input.GetKeyDown(KeyCode.Space))
         {
+            LookAtTarget();
             animator.SetTrigger("Attack");
         }
+    }
+
+    void LookAtTarget()
+    {
+        float distance = Vector3.Distance(transform.position, target.position);
+        if (distance <= 3f) transform.LookAt(target);
     }
 
     void GetDamage(int damage)
@@ -44,6 +53,7 @@ public class PlayerManager : MonoBehaviour
             dead = true;
             animator.SetTrigger("Die");
             rb.velocity = Vector3.zero;
+            gameOverText.SetActive(true);
         }
         playerUIManager.UpdateHp(hp);
     }
