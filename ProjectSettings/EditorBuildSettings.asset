@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/BattleDOG_titleScreen.unity
+    guid: ebed851da77f14c32a74b1171321bebf
+  - enabled: 1
+    path: Assets/Scenes/BattleDOG.unity
+    guid: 2515809590d994ffab69b5e7abe4344f
   m_configObjects: {}

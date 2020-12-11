@@ -10,7 +10,8 @@ public class PlayerManager : MonoBehaviour
     public Collider weaponCollider;
     public PlayerUIManager playerUIManager;
     public int maxHp = 100;
-    public int hp;
+    public int maxSp = 100;
+    public int hp, sp;
     bool dead;
     public GameObject gameOverText;
     public Transform target;
@@ -19,6 +20,7 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         hp = maxHp;
+        sp = maxSp;
         ms = 10;        
         playerUIManager.Init(this);
         rb = GetComponent<Rigidbody>();
@@ -33,6 +35,23 @@ public class PlayerManager : MonoBehaviour
         y = Input.GetAxisRaw("Vertical");
         if(Input.GetKeyDown(KeyCode.Space))
         {
+            Attack();
+        }
+        recoverStamina();
+    }
+
+    public void recoverStamina()
+    {
+        if (sp < maxSp) sp++;
+        playerUIManager.UpdateSp(sp);
+    }
+
+    private void Attack()
+    {
+        if (sp >= 50)
+        {
+            sp -= 50;
+            playerUIManager.UpdateSp(sp);
             LookAtTarget();
             animator.SetTrigger("Attack");
         }

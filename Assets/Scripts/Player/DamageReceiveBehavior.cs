@@ -8,6 +8,7 @@ public class DamageReceiveBehavior : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.GetComponent<PlayerManager>().ms = 0.5f;
+        animator.GetComponent<PlayerManager>().DisableWeaponCollider();
         animator.ResetTrigger("DamageReceive");
     }
 
